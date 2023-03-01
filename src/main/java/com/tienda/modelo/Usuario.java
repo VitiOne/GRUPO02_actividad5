@@ -1,9 +1,13 @@
 package com.tienda.modelo;
 
 import java.time.LocalDate;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -31,6 +35,12 @@ public class Usuario {
 
   @Column(name = "password", nullable = false, length = 45)
   private String password;
+
+  @ManyToMany
+  @JoinTable(name = "usuarios_con_direcciones",
+      joinColumns = { @JoinColumn(name = "id_usuarios") },
+      inverseJoinColumns = { @JoinColumn(name = "id_direcciones") })
+  private Set<Direccion> direcciones;
 
   public Integer getId() {
     return id;

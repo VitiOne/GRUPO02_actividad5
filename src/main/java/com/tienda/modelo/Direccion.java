@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "direcciones")
-public class Direccione {
+public class Direccion {
 
   @Id
   @Column(name = "id", nullable = false)

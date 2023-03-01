@@ -19,8 +19,6 @@ public class TiendaController {
 	public String login(HttpServletRequest request, HttpSession session) {
 		String usuario = request.getParameter("usuario");
 		String password = request.getParameter("password");
-		
-		
 		return "index";
 	}
 
