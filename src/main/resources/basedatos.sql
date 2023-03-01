@@ -1,4 +1,4 @@
-
+CREATE SCHEMA IF NOT EXISTS tienda;
 use tienda;
 
 
@@ -137,3 +137,6 @@ create table usuario_tarjeta
 );
 
 INSERT INTO usuario_tarjeta VALUES (1, 1),(2, 2),(3, 3),(1, 3);
+
+create user 'tienda' identified by 'tienda';
+grant all privileges on tienda.* to  'tienda';
