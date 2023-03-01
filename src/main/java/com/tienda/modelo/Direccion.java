@@ -6,24 +6,30 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "direcciones")
+@Table(name = "direccion")
 public class Direccion {
 
   @Id
   @Column(name = "id", nullable = false)
   private Integer id;
 
-  @Column(name = "cp", length = 5)
+  @Column(name = "cp", nullable = false, length = 5)
   private String cp;
 
-  @Column(name = "localidad", length = 20)
+  @Column(name = "localidad", nullable = false, length = 20)
   private String localidad;
 
-  @Column(name = "calle", length = 20)
+  @Column(name = "calle", nullable = false, length = 20)
   private String calle;
 
-  @Column(name = "numero")
+  @Column(name = "numero", nullable = false)
   private Integer numero;
+
+  @Column(name = "piso", length = 20)
+  private String piso;
+
+  @Column(name = "letra", length = 10)
+  private String letra;
 
   public Integer getId() {
     return id;
@@ -63,6 +69,22 @@ public class Direccion {
 
   public void setNumero(Integer numero) {
     this.numero = numero;
+  }
+
+  public String getPiso() {
+    return piso;
+  }
+
+  public void setPiso(String piso) {
+    this.piso = piso;
+  }
+
+  public String getLetra() {
+    return letra;
+  }
+
+  public void setLetra(String letra) {
+    this.letra = letra;
   }
 
 }

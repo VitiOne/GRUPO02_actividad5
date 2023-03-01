@@ -4,15 +4,17 @@ import java.time.LocalDate;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "usuarios")
-public class Usuario {
+@Table(name = "usuario")
+public class  Usuario {
 
   @Id
   @Column(name = "id", nullable = false)
@@ -27,19 +29,20 @@ public class Usuario {
   @Column(name = "fecha_nacimiento")
   private LocalDate fechaNacimiento;
 
-  @Column(name = "enabled", nullable = false)
-  private Integer enabled;
-
   @Column(name = "email", nullable = false, length = 45)
   private String email;
 
   @Column(name = "password", nullable = false, length = 45)
   private String password;
 
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "id_rol", nullable = false)
+  private Role idRol;
+
   @ManyToMany
-  @JoinTable(name = "usuarios_con_direcciones",
-      joinColumns = { @JoinColumn(name = "id_usuarios") },
-      inverseJoinColumns = { @JoinColumn(name = "id_direcciones") })
+  @JoinTable(name = "usuario_direccion",
+      joinColumns = { @JoinColumn(name = "id_usuario") },
+      inverseJoinColumns = { @JoinColumn(name = "id_direccion") })
   private Set<Direccion> direcciones;
 
   public Integer getId() {
@@ -74,14 +77,6 @@ public class Usuario {
     this.fechaNacimiento = fechaNacimiento;
   }
 
-  public Integer getEnabled() {
-    return enabled;
-  }
-
-  public void setEnabled(Integer enabled) {
-    this.enabled = enabled;
-  }
-
   public String getEmail() {
     return email;
   }
@@ -96,6 +91,14 @@ public class Usuario {
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  public Role getIdRol() {
+    return idRol;
+  }
+
+  public void setIdRol(Role idRol) {
+    this.idRol = idRol;
   }
 
 }
