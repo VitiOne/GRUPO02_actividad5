@@ -31,6 +31,9 @@ INSERT INTO usuario VALUES
 	(2, 'Jaime', 'Jaimero', '1959-10-10', 'jaime@jaimero.com','jaime123',2),
 	(3, 'Rosa', 'Rosario', '1985-08-25', 'rosa@rosario.com','rosa123',2);
 
+-- ha dicho el profe que hay que añadir esta columna para que no de problemas luego con el security
+-- alter table usuarios add column enabled int;  
+
 create table direccion
 (
 	id int primary key,
