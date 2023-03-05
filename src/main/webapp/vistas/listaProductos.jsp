@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%-- @ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" --%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +18,7 @@
 	<table class="table table-striped table-sm" >
 	<th>Id</th><th>Nombre Producto</th><th>Opciones</th>
 	
-	<c:forEach var="ele" items="${listaTodos }" >
+	<c:forEach var="ele" items="${listaProductos }" >
 		<tr>
 			<td>${ele.id}</td>
 			<td>${ele.descripcion }</td>
@@ -28,6 +29,8 @@
 			
 		</tr>
 	</c:forEach>
+
+	
 	</table>
 	</div>
 	</body>

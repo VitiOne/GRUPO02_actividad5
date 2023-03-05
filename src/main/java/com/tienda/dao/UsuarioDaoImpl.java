@@ -13,13 +13,13 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	@Autowired
 	private UsuarioRepository urepo;
 	@Override
-	public Usuario findById(int  id_usuario) {
+	public Usuario findById(String email) {
 		// TODO Auto-generated method stub
-		return urepo.findById(id_usuario).orElse(null);
+		return urepo.findById(email).orElse(null);
 	}
 	@Override
 	public boolean registro(Usuario usuario) {
-		if (findById(usuario.getId()) == null) {
+		if (findById(usuario.getEmail()) == null) {
 				urepo.save(usuario);
 				return true;
 		}

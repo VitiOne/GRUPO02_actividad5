@@ -4,7 +4,7 @@ import com.tienda.modelo.Usuario;
 
 public interface UsuarioDao {
 	
-	Usuario findById(int id_usuario);
+	Usuario findById(String email);
 	boolean registro(Usuario usuario);
 	
 
