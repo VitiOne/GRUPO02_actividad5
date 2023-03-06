@@ -1,4 +1,4 @@
-
+CREATE SCHEMA IF NOT EXISTS tienda;
 use tienda;
 
 
@@ -30,6 +30,9 @@ INSERT INTO usuario VALUES
 	(1, 'administrador', 'administrador', '1992-04-14','admin@admin.com','admin1234',1),
 	(2, 'Jaime', 'Jaimero', '1959-10-10', 'jaime@jaimero.com','jaime123',2),
 	(3, 'Rosa', 'Rosario', '1985-08-25', 'rosa@rosario.com','rosa123',2);
+
+-- ha dicho el profe que hay que añadir esta columna para que no de problemas luego con el security
+-- alter table usuarios add column enabled int;  
 
 create table direccion
 (
@@ -137,3 +140,6 @@ create table usuario_tarjeta
 );
 
 INSERT INTO usuario_tarjeta VALUES (1, 1),(2, 2),(3, 3),(1, 3);
+
+create user 'tienda' identified by 'tienda';
+grant all privileges on tienda.* to  'tienda';
