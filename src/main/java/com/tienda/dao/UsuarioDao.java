@@ -6,6 +6,7 @@ public interface UsuarioDao {
 	
 	Usuario findById(String email);
 	boolean registro(Usuario usuario);
+	//int validarUsuario(Usuario usuario);
 	
 
 }

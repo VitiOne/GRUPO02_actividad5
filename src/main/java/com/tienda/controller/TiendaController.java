@@ -64,33 +64,48 @@ public class TiendaController {
 	 	}
 		
 	}
-
-//	@GetMapping("login")
-//	public String login(HttpServletRequest request, HttpSession session) {
-//		String usuario = request.getParameter("usuario");
-//		String password = request.getParameter("password");
-//		return "index";
-//	}
-	
+//----------------------------------------------------------------------------
+	// hago el login mediante formulario
 	@GetMapping("/usuario/login")
-	public String procesarLogin(Authentication aut, Model model, HttpSession misesion) {
-		
-		System.out.println("usuario : " + aut.getName());
-		Usuario usuario = udao.findById(aut.getName());
-		
-		if (misesion.getAttribute("usuario") == null)
-			misesion.setAttribute("usuario", usuario);
-		
-		System.out.println();
-		
-		for (GrantedAuthority ele: aut.getAuthorities())
-			System.out.println("ROL : " + ele.getAuthority());
-		
-		model.addAttribute("mensaje", aut.getAuthorities());
-		
+	public String inicioSesion(HttpSession session) {
+		if (session.getAttribute("usuario") != null) {
+			return "redirect:/producto/listar";
+		} else {
+			return "login";
+		}
+	}
+	@PostMapping("/usuario/login")
+	public String procesarLogin() {
 		
 		return "redirect:/";
 	}
+	
+//	@GetMapping("/usuario/login")
+//	public String login(HttpServletRequest request, HttpSession session) {
+//		String usuario = request.getParameter("usuario");
+//		String password = request.getParameter("password");
+//		return "login";
+//	}
+	
+//	@PostMapping("/usuario/login")
+//	public String procesarLogin(Authentication aut, Model model, HttpSession misesion) {
+//		
+//		System.out.println("usuario : " + aut.getName());
+//		Usuario usuario = udao.findById(aut.getName());
+//		
+//		if (misesion.getAttribute("usuario") == null)
+//			misesion.setAttribute("usuario", usuario);
+//		
+//		System.out.println("logado");
+//		
+//		for (GrantedAuthority ele: aut.getAuthorities())
+//			System.out.println("ROL : " + ele.getAuthority());
+//		
+//		model.addAttribute("mensaje", aut.getAuthorities());
+//		
+//		
+//		return "redirect:/";
+//	}
 
 	@GetMapping("/usuario/salir")
 	public String cerrarSesion(HttpSession session) {
@@ -98,7 +113,7 @@ public class TiendaController {
 
 		session.invalidate();
 
-		return "redirect:/login";
+		return "redirect:/";
 	}
 	
 	//-----------------------------------------------------------------------
@@ -111,7 +126,7 @@ public class TiendaController {
 		return "listaProductos";
 	}
 
-	@GetMapping("/verUno/{id}")
+	@GetMapping("/producto/verUno/{id}")
 	public String verUno(Model model, @PathVariable(name="id") int  codigo) {
 		
 		Producto producto = prdao.buscarUno(codigo);
@@ -121,7 +136,7 @@ public class TiendaController {
 		
 	}
 	
-	@GetMapping("/eliminar/{id}")
+	@GetMapping("/producto/eliminar/{id}")
 	public String eliminar(Model model, @PathVariable(name="id") int  codigo) {
 		
 		if (prdao.borrarProducto(codigo) == 1)
@@ -134,7 +149,7 @@ public class TiendaController {
 	}
 
 	
-	@GetMapping("/alta")
+	@GetMapping("/producto/alta")
 	public String enviarFormulario() {
 		
 		
@@ -142,7 +157,7 @@ public class TiendaController {
 		 
 		
 	}
-	@PostMapping("/alta")
+	@PostMapping("/producto/alta")
 	public String procesarFormulario(Model model,Producto producto ) {
 		
 		
@@ -158,7 +173,7 @@ public class TiendaController {
 		
 	}
 	
-	@GetMapping("/editar/{id}")
+	@GetMapping("/producto/editar/{id}")
 	public String enviarFormularioEditar(Model model, @PathVariable(name="id") int codigo) {
 		
 		 
@@ -168,7 +183,7 @@ public class TiendaController {
 		 
 		
 	}
-	@PostMapping("/modificar")
+	@PostMapping("/producto/editar/{id}")
 	public String procesarFormularioEditar(Model model,Producto producto ) {
 		
 		

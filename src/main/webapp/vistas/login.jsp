@@ -10,7 +10,7 @@
 	<h1>Iniciar Sesión</h1>
 	<form action="/usuario/login" method="post">
 	
-		<p>Usuario <input type="text" name="username" ></p>
+		<p>Email <input type="text" name="username" ></p>
 		<p>Contraseña <input type="text" name="password" ></p>
 		<p>${requestScope.mensaje}</p> <!-- Mensaje al hacer login, indica correcto o incorrecto -->
 		<p><input type="submit" value="Log In" ></p>
