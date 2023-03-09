@@ -11,18 +11,16 @@ import com.tienda.repository.UsuarioRepository;
 @Repository
 public class UsuarioDaoImpl implements UsuarioDao {
 	@Autowired
-	private UsuarioRepository urepo;
+	private UsuarioRepository usuarioRepository;
+
 	@Override
-	public Usuario findById(String email) {
-		// TODO Auto-generated method stub
-		return urepo.findById(email).orElse(null);
+	public Usuario findUser(String email, String password) {
+		return usuarioRepository.findUsuario(email,password);
 	}
+
 	@Override
 	public boolean registro(Usuario usuario) {
-		if (findById(usuario.getEmail()) == null) {
-				urepo.save(usuario);
-				return true;
-		}
-		return false;
+		usuarioRepository.save(usuario);
+		return true;
 	}
 }

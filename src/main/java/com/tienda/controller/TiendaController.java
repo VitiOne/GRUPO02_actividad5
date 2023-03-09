@@ -1,5 +1,7 @@
 package com.tienda.controller;
 
+import com.tienda.controller.dto.UsuarioRegistroDto;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tienda.dao.ProductoDao;
@@ -36,6 +39,9 @@ public class TiendaController {
 	RolDao rdao;
 	@Autowired
 	UsuarioDao udao;
+
+	@Autowired
+	RolDao rolDao;
 	
 	@GetMapping("/usuario/registro")
 	public String registrar(Model model) {
@@ -48,12 +54,27 @@ public class TiendaController {
 		
 	}
 	@PostMapping("/usuario/registro")
-	public String porregistrar(Model model, Usuario usuario, RedirectAttributes ratt) {
+	public String porregistrar(Model model, @RequestBody UsuarioRegistroDto usuario, RedirectAttributes ratt) {
 		
 		//usuario.setEnabled(1);
 	 	//usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-		usuario.setPassword(usuario.getPassword());
-	 	if (udao.registro(usuario)) {
+
+		Usuario usuarioEntity = new Usuario();
+		usuarioEntity.setNombre(usuario.getNombre());
+		usuarioEntity.setPassword(usuario.getPassword());
+		usuarioEntity.setApellidos(usuario.getApellidos());
+		usuarioEntity.setEmail(usuario.getEmail());
+		usuarioEntity.setIdRol(rolDao.findById(2));
+		usuarioEntity.setFechaNacimiento(LocalDate.now());
+
+		//id tiene que ser automatico
+		//usuarioEntity.setId(10);
+
+		udao.registro(usuarioEntity);
+
+
+
+		if (udao.registro(usuarioEntity)) {
 	 		ratt.addFlashAttribute("mensaje", "alta realizada");
 	 		return "redirect:/login";
 	 	}
@@ -65,32 +86,40 @@ public class TiendaController {
 		
 	}
 
-//	@GetMapping("login")
-//	public String login(HttpServletRequest request, HttpSession session) {
-//		String usuario = request.getParameter("usuario");
-//		String password = request.getParameter("password");
-//		return "index";
-//	}
-	
 	@GetMapping("/usuario/login")
-	public String procesarLogin(Authentication aut, Model model, HttpSession misesion) {
-		
-		System.out.println("usuario : " + aut.getName());
-		Usuario usuario = udao.findById(aut.getName());
-		
-		if (misesion.getAttribute("usuario") == null)
-			misesion.setAttribute("usuario", usuario);
-		
-		System.out.println();
-		
-		for (GrantedAuthority ele: aut.getAuthorities())
-			System.out.println("ROL : " + ele.getAuthority());
-		
-		model.addAttribute("mensaje", aut.getAuthorities());
-		
-		
-		return "redirect:/";
+	public String login(HttpServletRequest request, HttpSession session) {
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+
+
+
+		Usuario usuario = udao.findUser(email, password);
+
+
+		//iniciar sesion
+
+		return "index";
 	}
+	
+//	@GetMapping("/usuario/login")
+//	public String procesarLogin(Authentication aut, Model model, HttpSession misesion) {
+//
+////		System.out.println("usuario : " + aut.getName());
+////		Usuario usuario = udao.findById(aut.getName());
+////
+////		if (misesion.getAttribute("usuario") == null)
+////			misesion.setAttribute("usuario", usuario);
+////
+////		System.out.println();
+////
+////		for (GrantedAuthority ele: aut.getAuthorities())
+////			System.out.println("ROL : " + ele.getAuthority());
+////
+////		model.addAttribute("mensaje", aut.getAuthorities());
+////
+//
+//		return "redirect:/";
+//	}
 
 	@GetMapping("/usuario/salir")
 	public String cerrarSesion(HttpSession session) {
